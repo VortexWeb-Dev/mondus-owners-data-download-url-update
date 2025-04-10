@@ -3,6 +3,8 @@ require(__DIR__ . "/utils.php");
 
 header('Content-Type: application/json');
 
+define('OWNERS_DATA_ENTITY_TYPE_ID', 1058);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_POST;
 
@@ -10,6 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $itemId = $data['data']['FIELDS']['ID'] ?? null;
     $entityTypeId = $data['data']['ENTITY_TYPE_ID'] ?? null;
+
+    if ($entityTypeId != OWNERS_DATA_ENTITY_TYPE_ID) {
+        exit;
+    }
 
     if (!$itemId) {
         logData('error', "Missing Lead ID in POST data.");
