@@ -14,7 +14,7 @@ function logData($logfile, $data)
         mkdir($logDir, 0755, true);
     }
 
-    $logFile = $logDir . '/' . $logfile;
+    $logFile = $logDir . '/' . $logfile . '.log';
 
     file_put_contents($logFile, date('Y-m-d H:i:s') . " - $data\n", FILE_APPEND);
 }
