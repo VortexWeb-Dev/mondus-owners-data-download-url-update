@@ -37,4 +37,7 @@ jobs:
             sudo mkdir -p "$REMOTE_APP_DIR/logs"
             sudo chmod 775 "$REMOTE_APP_DIR/logs"
 
+            sudo chown -R www-data:www-data "$REMOTE_APP_DIR"
+            sudo chmod -R 775 "$REMOTE_APP_DIR"
+
             echo "✅ Deployment completed"
