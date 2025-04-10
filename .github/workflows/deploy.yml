@@ -26,8 +26,10 @@ jobs:
             if [ ! -d "$REMOTE_APP_DIR" ]; then
               echo "Directory does not exist. Cloning..."
               git clone $REPO_URL $REMOTE_APP_DIR
+              git config --global --add safe.directory $REMOTE_APP_DIR
             else
               echo "Directory exists. Pulling latest changes..."
+              git config --global --add safe.directory $REMOTE_APP_DIR
               cd $REMOTE_APP_DIR
               sudo git pull
             fi
