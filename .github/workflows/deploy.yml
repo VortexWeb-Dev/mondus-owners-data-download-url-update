@@ -25,19 +25,20 @@ jobs:
 
             if [ ! -d "$REMOTE_APP_DIR" ]; then
               echo "Directory does not exist. Cloning..."
-              git clone $REPO_URL $REMOTE_APP_DIR
-              git config --global --add safe.directory $REMOTE_APP_DIR
-            else
-              echo "Directory exists. Pulling latest changes..."
-              git config --global --add safe.directory $REMOTE_APP_DIR
-              cd $REMOTE_APP_DIR
-              sudo git pull
+              git clone "$REPO_URL" "$REMOTE_APP_DIR"
             fi
 
-            sudo mkdir -p "$REMOTE_APP_DIR/logs"
-            sudo chmod 775 "$REMOTE_APP_DIR/logs"
+            echo "Marking safe directory for Git"
+            git config --global --add safe.directory "$REMOTE_APP_DIR"
 
-            sudo chown -R www-data:www-data "$REMOTE_APP_DIR"
-            sudo chmod -R 775 "$REMOTE_APP_DIR"
+            echo "Pulling latest changes..."
+            cd "$REMOTE_APP_DIR"
+            git pull
+
+            echo "Setting permissions..."
+            mkdir -p "$REMOTE_APP_DIR/logs"
+            chmod 775 "$REMOTE_APP_DIR/logs"
+            chown -R www-data:www-data "$REMOTE_APP_DIR"
+            chmod -R 775 "$REMOTE_APP_DIR"
 
             echo "✅ Deployment completed"
