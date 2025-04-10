@@ -26,12 +26,12 @@ jobs:
 
             if [ ! -d "$REMOTE_APP_DIR" ]; then
               echo "Directory does not exist. Cloning..."
-              git clone "$REPO_URL" "$REMOTE_APP_DIR"
+              sudo git clone "$REPO_URL" "$REMOTE_APP_DIR"
             fi
 
             echo "Pulling latest changes..."
             cd "$REMOTE_APP_DIR"
-            git pull
+            sudo git pull
 
             if [ -f "composer.json" ]; then
               echo "Running composer install..."
