@@ -20,6 +20,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e
             REMOTE_APP_DIR="${{ secrets.REMOTE_APP_DIR }}"
             REPO_URL="${{ secrets.REPO_URL }}"
 
@@ -28,17 +29,18 @@ jobs:
               git clone "$REPO_URL" "$REMOTE_APP_DIR"
             fi
 
-            echo "Marking safe directory for Git"
-            git config --global --add safe.directory "$REMOTE_APP_DIR"
-
             echo "Pulling latest changes..."
             cd "$REMOTE_APP_DIR"
             git pull
 
-            echo "Setting permissions..."
-            mkdir -p "$REMOTE_APP_DIR/logs"
-            chmod 775 "$REMOTE_APP_DIR/logs"
-            chown -R www-data:www-data "$REMOTE_APP_DIR"
-            chmod -R 775 "$REMOTE_APP_DIR"
+            if [ -f "composer.json" ]; then
+              echo "Running composer install..."
+              composer install --no-dev --optimize-autoloader
+            fi
+
+            if [ -f "package.json" ]; then
+              echo "Running npm install..."
+              npm install
+            fi
 
             echo "✅ Deployment completed"

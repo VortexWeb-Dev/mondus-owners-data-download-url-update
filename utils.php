@@ -11,7 +11,7 @@ function logData($logfile, $data)
     $logDir = __DIR__ . '/logs/' . $datePath;
 
     if (!is_dir($logDir)) {
-        mkdir($logDir, 0755, true);
+        mkdir($logDir, 0777, true);
     }
 
     $logFile = $logDir . '/' . $logfile . '.log';
